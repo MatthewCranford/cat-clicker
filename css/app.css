@@ -1,24 +1,37 @@
+body {
+    margin: 0;
+}
+
 .title {
     text-align: center;
+    background: #cfcfcf;
+    margin: 0;
+    padding: 1rem;
+    margin-bottom: 2rem;
 }
 
-.cats {
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cat-nav {
+    flex: 25%;
+    background: #929292;
+    color: #ffffff;
+}
+
+.cat-display {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 75%;
 
 }
-
-.cat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 
 .cat-img {
-    width: 80%;
-    height: 200px;
+    width: 200px;
+    height: auto;
    
 }
 
