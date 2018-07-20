@@ -1,16 +1,3 @@
-// const cat1 = document.querySelector('#cat1');
-// const cat2 = document.querySelector('#cat2');
-// const clicker1 = document.querySelector('#clicker1');
-// const clicker2 = document.querySelector('#clicker2');
-// let counter1 = 0;
-// let counter2 = 0;
-
-// function catClicker(clicker, counter) {
-//     counter++;
-//     clicker.innerHTML = `Clicks = ${counter}`;
-//     return counter;
-// }
-
 const cats = [
     {
         name: 'cat1',
@@ -29,37 +16,32 @@ const catDisplay = document.querySelector('.cat-display');
 const catImg = document.querySelector('.cat-img');
 const catTitle = document.querySelector('.cat-title');
 const catCounter = document.querySelector('.cat-counter');
+const img = document.createElement('img');
+img.classList.add('cat-img');
+catDisplay.append(img);
 
 for (let i = 0; i < cats.length; i++) {
-
     const li = document.createElement('li');
-    const img = document.createElement('img');
-    img.classList.add('cat-img');
     li.innerHTML=`Cat${i+1}`
     catList.append(li);
 
-    
     li.addEventListener('click', (function(id) {
         return function() {
             let count = cats[id].count;
-            catDisplay.append(img);
             img.src = cats[id].image;
-            img.dataset = id;
+            img.setAttribute('data', id);
             catTitle.innerHTML = `Cat${i+1}`
             catCounter.innerHTML = count;
-
-            img.addEventListener('click', (function(id) {
-                return function() {
-                    console.log('test')
-                    count++;
-                    catCounter.innerHTML = count;
-                    cats[id].count += 1;
-                }
-                  
-                
-            })(id));
         }
     })(i));
 }
+
+img.addEventListener('click', function() {
+    const id = parseInt(this.attributes.data.value);    
+    let count = cats[id].count;
+    count++;
+    catCounter.innerHTML = count;
+    cats[id].count = count;
+});
 
 
