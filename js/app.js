@@ -8,7 +8,22 @@ const cats = [
         name: 'cat2',
         image: '../images/625069434_db86b67df8_b.jpg',
         count: 0
-    }
+    },
+    {
+        name: 'cat3',
+        image: '../images/2207159142_c11258cf67_o.jpg',
+        count: 0
+    },
+    {
+        name: 'cat4',
+        image: '../images/5513402618_3ce232e01a_b.jpg',
+        count: 0
+    },
+    {
+        name: 'cat5',
+        image: '../images/6330704947_42b3b83593_o.jpg',
+        count: 0
+    },
 ]
 
 const catList = document.querySelector('#cat-list');
