@@ -5,14 +5,6 @@ body {
 .title {
     text-align: center;
     background: #cfcfcf;
-    margin: 0;
-    padding: 1rem;
-    margin-bottom: 2rem;
-}
-
-.container {
-    display: flex;
-    justify-content: space-between;
 }
 
 .cat-nav {
@@ -26,13 +18,10 @@ body {
     flex-direction: column;
     align-items: center;
     flex: 75%;
-
 }
 
 .cat-img {
-    width: 200px;
-    height: 200px;
-   
+    width: 300px;
 }
 
 .clicker {
