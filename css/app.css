@@ -1,14 +1,3 @@
-.view-1 {
-    flex: 25%;
-}
-
-.view-2 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 75%;
-}
-
 .cat-img {
-    width: 300px;
+    max-width: 500px;
 }

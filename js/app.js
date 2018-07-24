@@ -31,6 +31,7 @@ const model = {
     add: function(id) {
         const data = JSON.parse(localStorage.cats);
         data[id].count++;
+        localStorage.cats = JSON.stringify(data);
     }   
 }
 
@@ -42,21 +43,32 @@ const view1 = {
             const li = document.createElement('li');
             li.innerHTML=`Cat${i+1}`
             catList.append(li);
+            li.addEventListener('click', (function() {
+                return function() {
+                    octopus.newCat(i);
+                }
+            })(i));
         }
     }
 }
 
 const view2 = {
     init: function() {
+        this.render(0);
+        this.addClicker(0);
+    },
+    render: function(index) {
         const catDisplay = document.querySelector('.view-2');
         const cats = JSON.parse(localStorage.cats);
-        console.log(cats[0]);
         catDisplay.innerHTML = `
-        <h2>${cats[0].name}</h2>
-        <img class='cat-img' src='${cats[0].image}'>
-        <p>${cats[0].count}</p>
-        `
-    }
+        <h2>${cats[index].name}</h2>
+        <img class='cat-img' src='${cats[index].image}'>
+        <p>${cats[index].count}</p>
+        `;
+        catDisplay.children[1].addEventListener('click', function() {
+            octopus.click(index);
+        });
+    },
 }
 
 const octopus = {
@@ -64,47 +76,13 @@ const octopus = {
         model.init();
         view1.init();
         view2.init();
+    },
+    newCat: function(index) {
+        view2.render(index)
+    },
+    click: function(index) {
+        model.add(index);
+        view2.render(index);
     }
 }
 octopus.init();
-
-
-
-// const catList = document.querySelector('#cat-list');
-// const catDisplay = document.querySelector('.cat-display');
-// const catImg = document.querySelector('.cat-img');
-// const catTitle = document.querySelector('.cat-title');
-// const catCounter = document.querySelector('.cat-counter');
-// const img = document.createElement('img');
-// img.classList.add('cat-img');
-// catDisplay.append(img);
-
-// for (let i = 0; i < cats.length; i++) {
-//     const li = document.createElement('li');
-//     li.innerHTML=`Cat${i+1}`
-//     catList.append(li);
-
-//     li.addEventListener('click', (function(id) {
-//         return function() {
-//             let count = cats[id].count;
-//             img.src = cats[id].image;
-//             img.setAttribute('data', id);
-//             catTitle.innerHTML = `Cat${i+1}`
-//             catCounter.innerHTML = count;
-//         }
-//     })(i));
-// }
-
-// img.addEventListener('click', function() {
-//     const id = parseInt(this.attributes.data.value);    
-//     let count = cats[id].count;
-//     count++;
-//     catCounter.innerHTML = count;
-//     cats[id].count = count;
-// });
-
-
-
-
-
-
