@@ -1,6 +1,8 @@
 const model = {
-    init: function() {
-        localStorage.cats = JSON.stringify([
+
+    currentCat: null,
+
+    cats: [
             {
                 name: 'cat1',
                 image: '../images/2290467335_d4fd0b3bd7_o.jpg',
@@ -26,63 +28,76 @@ const model = {
                 image: '../images/6330704947_42b3b83593_o.jpg',
                 count: 0
             },
-        ]);
-    },
-    add: function(id) {
-        const data = JSON.parse(localStorage.cats);
-        data[id].count++;
-        localStorage.cats = JSON.stringify(data);
-    }   
+        ]
 }
 
-const view1 = {
+
+
+const catList = {
+
     init: function() {
-        const catList = document.querySelector('.view-1 ul');
-        const catsLength = JSON.parse(localStorage.cats).length;
-        for (let i = 0; i < catsLength; i++) {
+        this.catList = document.querySelector('#cat-list');
+        this.render();  
+    },
+
+    render: function() {
+        const cats = octopus.getCats();
+        for (let i = 0; i < cats.length; i++) {
+            const cat = cats[i];
             const li = document.createElement('li');
-            li.innerHTML=`Cat${i+1}`
-            catList.append(li);
-            li.addEventListener('click', (function() {
+            li.textContent=`Cat${i+1}`
+            this.catList.append(li);
+            li.addEventListener('click', (function(catCopy) {
                 return function() {
-                    octopus.newCat(i);
+                    octopus.setCurrentCat(catCopy);
+                    catView.render();
                 }
-            })(i));
+            })(cat));
         }
     }
 }
 
-const view2 = {
+const catView = {
+
     init: function() {
-        this.render(0);
-        this.addClicker(0);
-    },
-    render: function(index) {
-        const catDisplay = document.querySelector('.view-2');
-        const cats = JSON.parse(localStorage.cats);
-        catDisplay.innerHTML = `
-        <h2>${cats[index].name}</h2>
-        <img class='cat-img' src='${cats[index].image}'>
-        <p>${cats[index].count}</p>
-        `;
-        catDisplay.children[1].addEventListener('click', function() {
-            octopus.click(index);
+        this.catName = document.querySelector('#cat-name');
+        this.catCounter = document.querySelector('#cat-counter');
+        this.catImg = document.querySelector('#cat-img');
+        this.catImg.addEventListener('click', function() {
+            octopus.incrementCurrentCatCount();
         });
     },
+
+    render: function() {
+        const cat = octopus.getCurrentCat();
+        this.catName.textContent = cat.name;
+        this.catCounter.textContent = cat.count;
+        this.catImg.src = cat.image;
+    }
 }
 
 const octopus = {
     init: function() {
-        model.init();
-        view1.init();
-        view2.init();
+        model.currentCat = model.cats[0];
+        catList.init();
+        catView.init();
     },
-    newCat: function(index) {
-        view2.render(index)
+
+    getCats: function() {
+        return model.cats;
     },
-    click: function(index) {
-        model.add(index);
-        view2.render(index);
+
+    getCurrentCat: function() {
+        return model.currentCat;
+    },
+
+    setCurrentCat: function(cat) {
+        model.currentCat = cat;
+    },
+
+    incrementCurrentCatCount: function() {
+        model.currentCat.count++;
+        catView.render();
     }
 }
 octopus.init();
