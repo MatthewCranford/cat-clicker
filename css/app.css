@@ -1,3 +1,7 @@
 .cat-img {
     max-width: 500px;
 }
+
+.hide {
+    display: none;
+}

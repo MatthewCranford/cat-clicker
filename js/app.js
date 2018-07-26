@@ -51,6 +51,7 @@ const catList = {
                 return function() {
                     octopus.setCurrentCat(catCopy);
                     catView.render();
+                    admin.render();
                 }
             })(cat));
         }
@@ -65,7 +66,9 @@ const catView = {
         this.catImg = document.querySelector('#cat-img');
         this.catImg.addEventListener('click', function() {
             octopus.incrementCurrentCatCount();
+            admin.render();
         });
+        this.render();
     },
 
     render: function() {
@@ -76,11 +79,50 @@ const catView = {
     }
 }
 
+const admin = {
+
+    init: function() {
+        this.adminBtn = document.querySelector('#admin-btn');
+        this.adminForm = document.querySelector('#admin-form');
+        this.adminCatName = document.querySelector('#admin-cat-name');
+        this.adminCatImg = document.querySelector('#admin-cat-img');
+        this.adminCatCounter = document.querySelector('#admin-cat-counter');
+        this.adminSave = document.querySelector('#admin-save');
+        this.adminCancel = document.querySelector('#admin-cancel');
+
+        this.adminBtn.addEventListener('click', 
+        ()=> {
+            this.adminForm.classList.toggle('hide');
+        });
+
+        this.adminSave.addEventListener('click', (e) => {
+            e.preventDefault();
+            octopus.updateCat();
+        });
+
+        this.adminCancel.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.adminForm.classList.toggle('hide');
+            this.render();
+        })
+
+        this.render();
+    },
+
+    render: function() {
+        const cat = octopus.getCurrentCat();
+        this.adminCatName.value = cat.name;
+        this.adminCatImg.value = cat.image;
+        this.adminCatCounter.value = cat.count;
+    }
+}
+
 const octopus = {
     init: function() {
         model.currentCat = model.cats[0];
         catList.init();
         catView.init();
+        admin.init();
     },
 
     getCats: function() {
@@ -97,6 +139,13 @@ const octopus = {
 
     incrementCurrentCatCount: function() {
         model.currentCat.count++;
+        catView.render();
+    },
+
+    updateCat: function() {
+        model.currentCat.name = admin.adminCatName.value;
+        model.currentCat.image = admin.adminCatImg.value;
+        model.currentCat.count = admin.adminCatCounter.value;
         catView.render();
     }
 }
